@@ -256,10 +256,6 @@ impl CompressionCounter {
     }
 }
 
-/// Render optional stats bytes: valid UTF-8 prints as a quoted string with
-/// newlines, tabs, backslashes and quotes escaped so one value stays on one
-/// line; anything else falls back to Debug. Long values are truncated so one
-/// blob cannot dominate the report.
 const MAX_STATS_CHARS: usize = 80;
 
 fn nulls(n: Option<u64>) -> String {
@@ -299,8 +295,6 @@ fn escape_control(s: &str) -> String {
     out
 }
 
-/// Render one sample-row cell on a single line: control characters escaped,
-/// long values truncated so one blob cannot dominate a row.
 const MAX_CELL_CHARS: usize = 120;
 
 fn cell(value: &str) -> String {
@@ -321,8 +315,6 @@ async fn main() -> Result<()> {
     color_eyre::install().map_err(anyhow::Error::msg)?;
     let cli = Cli::parse();
 
-    // Parquet reading is blocking I/O plus CPU-bound decode, so keep it off the
-    // async reactor threads.
     tokio::task::spawn_blocking(move || run(&cli))
         .await
         .context("parquet reader task panicked")??;
