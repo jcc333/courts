@@ -309,7 +309,7 @@ fn cell(value: &str) -> String {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    // Exit quietly on SIGPIPE (e.g. `pqpeek f.parquet | head`) rather than
+    // Exit quietly on SIGPIPE (e.g. `courts f.parquet | head`) rather than
     // panicking inside println!.
     sigpipe::reset();
     color_eyre::install().map_err(anyhow::Error::msg)?;
